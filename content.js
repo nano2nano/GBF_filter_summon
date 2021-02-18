@@ -1,5 +1,17 @@
 const TRIAL_HASH = "#quest/supporter/990021/17";
-const SUMMON_PARAM = ['シヴァ', 1];
+let SUMMON_PARAM = ['カグヤ', 2];
+const SUMMON_EXCEPTION_LIST = [
+    {
+        hash: '#quest/supporter/300161/1/0/20',
+        summon_name: 'ゴッドガード・ブローディア',
+        bless_rank: 1,
+    },
+    {
+        hash: '#quest/supporter/300261/1/0/21',
+        summon_name: 'グリームニル',
+        bless_rank: 1,
+    }
+];
 const SEND_NOTIFICATION_END_OF_BATTLE = true;
 
 if ("onhashchange" in window) {
@@ -10,6 +22,7 @@ if ("onhashchange" in window) {
             return;
         }
         if (isSummonListPage()) {
+            setSummonParam();
             var id = this.setInterval(waitfun, 250);
             function waitfun() {
                 var elements = document.getElementsByClassName('btn-supporter lis-supporter');
@@ -37,6 +50,17 @@ function isSummonListPage() {
     return location.hash.match(pattern) != null
         || location.hash.match(pattern2) != null
         || location.hash.match(pattern3) != null;
+}
+
+function setSummonParam() {
+    const index = SUMMON_EXCEPTION_LIST.findIndex(function ({ hash }) {
+        return location.hash === hash;
+    });
+    if (index != -1) {
+        SUMMON_PARAM = [SUMMON_EXCEPTION_LIST[index]['summon_name'], SUMMON_EXCEPTION_LIST[index]['bless_rank']];
+        console.log('set summon param');
+        console.log(SUMMON_PARAM);
+    }
 }
 
 function isResultPage() {
