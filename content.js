@@ -31,7 +31,7 @@ function isSummonListPage() {
     const pattern3 = /^#event\/sequenceraid008\/supporter\//;
     return location.hash.match(pattern) != null
         || location.hash.match(pattern2) != null
-        || location.hash.match(pattern3) != null
+        || location.hash.match(pattern3) != null;
 }
 
 function sendNotification(message) {
