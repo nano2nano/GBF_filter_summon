@@ -1,9 +1,8 @@
-const trial_hash = "#quest/supporter/990021/17";
+const TRIAL_HASH = "#quest/supporter/990021/17";
 
 if ("onhashchange" in window) {
     window.onhashchange = function () {
-
-        if (location.hash.match(trial_hash)) {
+        if (location.hash.match(TRIAL_HASH)) {
             // except trial page
             console.log('trial page');
             return;
@@ -49,7 +48,7 @@ function sendNotification(message) {
 
 function goTrial() {
     sendNotification("Not Fount Summon");
-    location.href = "http://game.granbluefantasy.jp/" + trial_hash;
+    location.href = "http://game.granbluefantasy.jp/" + TRIAL_HASH;
 }
 
 function existSummon(summons) {
