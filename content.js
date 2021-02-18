@@ -46,7 +46,7 @@ function isResultPage() {
 
 function sendNotification(message) {
     if (Notification.permission === 'granted') {
-        new Notification(message);
+        createNotification(message);
     } else {
         // Let's check if the browser supports notifications
         if (!('Notification' in window)) {
@@ -55,12 +55,20 @@ function sendNotification(message) {
             Notification.requestPermission()
                 .then((permission) => {
                     if (permission === 'granted') {
-                        new Notification(message);
+                        createNotification(message);
                     }
                 })
         }
     }
 
+}
+
+function createNotification(message) {
+    var notification = new Notification(message);
+    notification.addEventListener('click', function (e) {
+        window.focus();
+        e.target.close();
+    })
 }
 
 function goTrial() {
