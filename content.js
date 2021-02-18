@@ -8,10 +8,7 @@ if ("onhashchange" in window) {
             console.log('trial page');
             return;
         }
-        var pattern = /^#quest\/supporter\//;
-        var pattern2 = /^#quest\/supporter_raid\//;
-        var pattern3 = /^#event\/sequenceraid008\/supporter\//;
-        if ((location.hash.match(pattern) != null) || (location.hash.match(pattern2) != null || (location.hash.match(pattern3) != null))) {
+        if (isSummonListPage()) {
             var id = this.setInterval(waitfun, 250);
             function waitfun() {
                 var elements = document.getElementsByClassName('btn-supporter lis-supporter');
@@ -26,6 +23,15 @@ if ("onhashchange" in window) {
             }
         }
     }
+}
+
+function isSummonListPage() {
+    const pattern = /^#quest\/supporter\//;
+    const pattern2 = /^#quest\/supporter_raid\//;
+    const pattern3 = /^#event\/sequenceraid008\/supporter\//;
+    return location.hash.match(pattern) != null
+        || location.hash.match(pattern2) != null
+        || location.hash.match(pattern3) != null
 }
 
 function sendNotification(message) {
