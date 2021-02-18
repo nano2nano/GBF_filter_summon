@@ -68,9 +68,9 @@ function isResultPage() {
     return location.hash.match(pattern);
 }
 
-function sendNotification(message) {
+function sendNotification(message, options = {}) {
     if (Notification.permission === 'granted') {
-        createNotification(message);
+        createNotification(message, options);
     } else {
         // Let's check if the browser supports notifications
         if (!('Notification' in window)) {
@@ -79,7 +79,7 @@ function sendNotification(message) {
             Notification.requestPermission()
                 .then((permission) => {
                     if (permission === 'granted') {
-                        createNotification(message);
+                        createNotification(message, options);
                     }
                 })
         }
@@ -87,8 +87,8 @@ function sendNotification(message) {
 
 }
 
-function createNotification(message) {
-    var notification = new Notification(message);
+function createNotification(message, options = {}) {
+    var notification = new Notification(message, options);
     notification.addEventListener('click', function (e) {
         window.focus();
         e.target.close();
