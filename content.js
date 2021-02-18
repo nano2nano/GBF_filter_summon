@@ -1,5 +1,6 @@
 const TRIAL_HASH = "#quest/supporter/990021/17";
 const SUMMON_PARAM = ['シヴァ', 1];
+const SEND_NOTIFICATION_END_OF_BATTLE = true;
 
 if ("onhashchange" in window) {
     window.onhashchange = function () {
@@ -22,7 +23,9 @@ if ("onhashchange" in window) {
                 }
             }
         } else if (isResultPage()) {
-            sendNotification("Finish Battle");
+            if (SEND_NOTIFICATION_END_OF_BATTLE) {
+                sendNotification("Finish Battle");
+            }
         }
     }
 }
