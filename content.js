@@ -1,4 +1,5 @@
 const TRIAL_HASH = "#quest/supporter/990021/17";
+const SUMMON_PARAM = ['シヴァ', 1];
 
 if ("onhashchange" in window) {
     window.onhashchange = function () {
@@ -55,7 +56,7 @@ function existSummon(summons) {
     var summon_array = Array.prototype.slice.call(summons);
     for (var i = 0; i < summon_array.length; i++) {
         var summon_params = getParams(summon_array[i]);
-        if (summon_params[0] === "カグヤ" && summon_params[1] == 2) {
+        if (summon_params[0] === SUMMON_PARAM[0] && summon_params[1] == SUMMON_PARAM[1]) {
             return true;
         }
     }
