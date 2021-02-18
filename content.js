@@ -22,6 +22,7 @@ if ("onhashchange" in window) {
                 }
             }
         } else if (isResultPage()) {
+            sendNotification("Finish Battle");
         }
     }
 }
