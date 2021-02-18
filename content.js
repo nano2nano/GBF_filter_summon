@@ -10,6 +10,16 @@ const SUMMON_EXCEPTION_LIST = [
         hash: '#quest/supporter/300261/1/0/21',
         summon_name: 'グリームニル',
         bless_rank: 1,
+    },
+    {
+        hash: '#quest/supporter/300271/1/0/26',
+        summon_name: 'セレスト・マグナ',
+        bless_rank: 2,
+    },
+    {
+        hash: '#quest/supporter/300281/1/0/31',
+        summon_name: 'シュヴァリエ・マグナ',
+        bless_rank: 2,
     }
 ];
 const SEND_NOTIFICATION_END_OF_BATTLE = true;
