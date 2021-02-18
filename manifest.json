@@ -1,0 +1,23 @@
+{
+    "name": "GBF_summon_filter",
+    "version": "1.0.0",
+    "manifest_version": 2,
+    "description": "Filter summons list",
+    "content_scripts": [
+        {
+            "matches": [
+                "http://game.granbluefantasy.jp/"
+            ],
+            "js": [
+                "content.js"
+            ],
+            "run_at": "document_idle"
+        }
+    ],
+    "permissions": [
+        "notifications",
+        "background",
+        "http://game.granbluefantasy.jp/",
+        "http://*/*"
+    ]
+}
