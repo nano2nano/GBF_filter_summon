@@ -21,6 +21,7 @@ if ("onhashchange" in window) {
                     }
                 }
             }
+        } else if (isResultPage()) {
         }
     }
 }
@@ -32,6 +33,11 @@ function isSummonListPage() {
     return location.hash.match(pattern) != null
         || location.hash.match(pattern2) != null
         || location.hash.match(pattern3) != null;
+}
+
+function isResultPage() {
+    const pattern = /^#result_multi\/*/;
+    return location.hash.match(pattern);
 }
 
 function sendNotification(message) {
