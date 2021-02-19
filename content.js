@@ -1,5 +1,8 @@
 const TRIAL_HASH = "#quest/supporter/990021/17";
-let SUMMON_PARAM = ['カグヤ', 2];
+let SUMMON_PARAM = {
+    summon_name: 'カグヤ',
+    bless_rank: 2,
+};
 const SUMMON_EXCEPTION_LIST = [
     {
         hash: '#quest/supporter/300161/1/0/20',
@@ -67,7 +70,7 @@ function setSummonParam() {
         return location.hash === hash;
     });
     if (index != -1) {
-        SUMMON_PARAM = [SUMMON_EXCEPTION_LIST[index]['summon_name'], SUMMON_EXCEPTION_LIST[index]['bless_rank']];
+        SUMMON_PARAM = SUMMON_EXCEPTION_LIST[index];
         console.log('set summon param');
         console.log(SUMMON_PARAM);
     }
@@ -114,7 +117,7 @@ function existSummon(summons) {
     var summon_array = Array.prototype.slice.call(summons);
     for (var i = 0; i < summon_array.length; i++) {
         var summon_params = getParams(summon_array[i]);
-        if (summon_params[0] === SUMMON_PARAM[0] && summon_params[1] == SUMMON_PARAM[1]) {
+        if (summon_params[0] === SUMMON_PARAM['summon_name'] && summon_params[1] == SUMMON_PARAM['bless_rank']) {
             return true;
         }
     }
