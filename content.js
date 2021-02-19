@@ -71,11 +71,6 @@ function setSummonParam() {
     }
 }
 
-function isResultPage() {
-    const pattern = /^#result_multi\/*/;
-    return location.hash.match(pattern);
-}
-
 function sendNotification(message, options = {}) {
     if (Notification.permission === 'granted') {
         createNotification(message, options);

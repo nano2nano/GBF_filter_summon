@@ -1,12 +1,7 @@
 chrome.devtools.network.onRequestFinished.addListener(
     async function (request) {
         if (request.request.url.match("http://game.granbluefantasy.jp/resultmulti/data")) {
-            try {
-                const ctt = await new Promise((rss, rjk) => request.getContent(rss));
-                // console.log(ctt);
-            } catch (error) {
-                console.error();
-            }
+            // request data for result page.
         } else if (request.request.url.match("normal_attack_result.json")) {
             try {
                 const ctt = await new Promise((rss, rjk) => request.getContent(rss));
@@ -25,8 +20,6 @@ chrome.devtools.network.onRequestFinished.addListener(
                         // do nothing
                     });
                 }
-                // console.log(attack_result);
-                // console.log(obj.scenario);
             } catch (error) {
                 console.error();
             }
