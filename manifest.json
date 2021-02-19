@@ -10,14 +10,12 @@
             ],
             "js": [
                 "content.js"
-            ],
-            "run_at": "document_idle"
+            ]
         }
     ],
     "permissions": [
         "notifications",
         "background",
-        "http://game.granbluefantasy.jp/",
-        "http://*/*"
+        "*://*.granbluefantasy.jp/"
     ]
 }
