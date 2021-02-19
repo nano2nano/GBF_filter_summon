@@ -1,9 +1,11 @@
+const SEND_NOTIFICATION_END_OF_BATTLE = true;
+
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
         console.log(sender.tab ?
             "from a content script:" + sender.tab.url :
             "from the extension");
-        if (request.tag == "game_result") {
+        if (request.tag == "game_result" && SEND_NOTIFICATION_END_OF_BATTLE) {
             if (request.isWin) {
                 sendNotification("Win the battle");
                 console.log('win the battle');

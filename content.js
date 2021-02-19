@@ -25,7 +25,6 @@ const SUMMON_EXCEPTION_LIST = [
         bless_rank: 2,
     }
 ];
-const SEND_NOTIFICATION_END_OF_BATTLE = true;
 
 if ("onhashchange" in window) {
     window.onhashchange = function () {
@@ -47,10 +46,6 @@ if ("onhashchange" in window) {
                         goTrial();
                     }
                 }
-            }
-        } else if (isResultPage()) {
-            if (SEND_NOTIFICATION_END_OF_BATTLE) {
-                // sendNotification("Finish Battle");
             }
         }
     }
