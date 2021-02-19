@@ -50,7 +50,7 @@ if ("onhashchange" in window) {
             }
         } else if (isResultPage()) {
             if (SEND_NOTIFICATION_END_OF_BATTLE) {
-                sendNotification("Finish Battle");
+                // sendNotification("Finish Battle");
             }
         }
     }

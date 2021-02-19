@@ -13,9 +13,17 @@
             ]
         }
     ],
+    "background": {
+        "scripts": [
+            "background.js"
+        ],
+        "persistent": true
+    },
     "permissions": [
         "notifications",
         "background",
+        "webRequest",
         "*://*.granbluefantasy.jp/"
-    ]
+    ],
+    "devtools_page": "devtools.html"
 }
