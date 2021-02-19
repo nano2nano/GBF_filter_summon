@@ -7,8 +7,3 @@
 
 ## 注意
 * f12キーを押下して開発者ツールを起動してください。
-
-* 通知機能を利用する場合、アドレスバーに下記リンクを入力し、<http://game.granbluefantasy.jp/>を追加してください。
-```
-chrome://flags/#unsafely-treat-insecure-origin-as-secure
-```
