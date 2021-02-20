@@ -9,14 +9,8 @@ chrome.devtools.network.onRequestFinished.addListener(
                 const ctt = await new Promise((rss, rjk) => request.getContent(rss));
                 const attack_result = JSON.parse(ctt);
                 const scenario = attack_result.scenario;
-                const cmd_win_idx = scenario.findIndex(function ({ cmd }) {
-                    return cmd === 'win';
-                });
 
-                if (cmd_win_idx == -1) {
-                    // do nothing
-                } else {
-                    // win
+                if (existWinCommandInScenario(scenario)) {
                     console.log("win the battle");
                     chrome.runtime.sendMessage({ tag: "game_result", isWin: true });
                 }
@@ -43,3 +37,7 @@ chrome.devtools.network.onRequestFinished.addListener(
         }
     }
 );
+
+function existWinCommandInScenario(scenario) {
+    return scenario.findIndex(({ cmd }) => cmd === 'win') != -1;
+}
