@@ -12,7 +12,7 @@ chrome.runtime.onMessage.addListener(
                 }
                 break;
             case "game_result":
-                location.reload(false);
+                location.reload();
                 break;
             default:
                 break;
