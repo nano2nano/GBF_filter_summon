@@ -60,25 +60,28 @@ if ("onhashchange" in window) {
         }
         if (isSummonListPage()) {
             chrome.runtime.sendMessage({ tag: "request_local_storage", key: "do_filter" }, function (response) {
-                if (!response.do_filter) {
-                    return;
-                }
-                SUMMON_PARAM = getSummonSearchParam();
-                var id = this.setInterval(waitfun, 250);
-                function waitfun() {
-                    var elements = document.getElementsByClassName('btn-supporter lis-supporter');
-                    if (elements.length != 0) {
-                        clearInterval(id);
-                        if (existSummon(elements)) {
-                            // nothing to do
-                        } else {
-                            // could not find supporter
-                            sendNotification("Not Fount Summon");
-                            location.href = "http://game.granbluefantasy.jp/" + TRIAL_HASH;
-                        }
-                    }
+                if (response.do_filter) {
+                    checkSummon();
                 }
             });
+        }
+    }
+}
+
+function checkSummon() {
+    SUMMON_PARAM = getSummonSearchParam();
+    var id = this.setInterval(waitfun, 250);
+    function waitfun() {
+        var elements = document.getElementsByClassName('btn-supporter lis-supporter');
+        if (elements.length != 0) {
+            clearInterval(id);
+            if (existSummon(elements)) {
+                // nothing to do
+            } else {
+                // could not find supporter
+                sendNotification("Not Fount Summon");
+                location.href = "http://game.granbluefantasy.jp/" + TRIAL_HASH;
+            }
         }
     }
 }
