@@ -72,7 +72,9 @@ if ("onhashchange" in window) {
                     if (existSummon(elements)) {
                         // nothing to do
                     } else {
-                        goTrial();
+                        // could not find supporter
+                        sendNotification("Not Fount Summon");
+                        location.href = "http://game.granbluefantasy.jp/" + TRIAL_HASH;
                     }
                 }
             }
@@ -125,11 +127,6 @@ function createNotification(message, options = {}) {
         window.focus();
         e.target.close();
     })
-}
-
-function goTrial() {
-    sendNotification("Not Fount Summon");
-    location.href = "http://game.granbluefantasy.jp/" + TRIAL_HASH;
 }
 
 function existSummon(summons) {
