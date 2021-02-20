@@ -11,6 +11,9 @@ chrome.runtime.onMessage.addListener(
                 tab_id = sender.tab.id;
                 break;
             case "game_result":
+                if (tab_id !== null) {
+                    chrome.tabs.sendMessage(tab_id, request);
+                }
                 if (SEND_NOTIFICATION_END_OF_BATTLE) {
                     if (request.isWin) {
                         sendNotification("Win the battle");

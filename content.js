@@ -11,6 +11,9 @@ chrome.runtime.onMessage.addListener(
                     location.href = "http://game.granbluefantasy.jp/#quest/index";
                 }
                 break;
+            case "game_result":
+                location.reload(false);
+                break;
             default:
                 break;
         }
