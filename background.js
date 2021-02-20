@@ -1,4 +1,7 @@
-const SEND_NOTIFICATION_END_OF_BATTLE = true;
+if (!localStorage.hasOwnProperty("SEND_NOTIFICATION_END_OF_BATTLE")) {
+    localStorage.setItem("SEND_NOTIFICATION_END_OF_BATTLE", "true");
+}
+
 let tab_id = null;
 
 chrome.runtime.onMessage.addListener(
@@ -14,7 +17,7 @@ chrome.runtime.onMessage.addListener(
                 if (tab_id !== null) {
                     chrome.tabs.sendMessage(tab_id, request);
                 }
-                if (SEND_NOTIFICATION_END_OF_BATTLE) {
+                if (localStorage.getItem("SEND_NOTIFICATION_END_OF_BATTLE") == "true") {
                     if (request.isWin) {
                         sendNotification("Win the battle");
                     } else {

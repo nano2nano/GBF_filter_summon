@@ -1,3 +1,7 @@
+if (!localStorage.hasOwnProperty("DO_FILTER")) {
+    localStorage.setItem("DO_FILTER", "true");
+}
+
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
         console.log(sender.tab ?
@@ -58,7 +62,7 @@ if ("onhashchange" in window) {
             console.log('trial page');
             return;
         }
-        if (isSummonListPage()) {
+        if (isSummonListPage() && localStorage.getItem("DO_FILTER") == "true") {
             setSummonParam();
             var id = this.setInterval(waitfun, 250);
             function waitfun() {
