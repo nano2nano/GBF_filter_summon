@@ -1,6 +1,12 @@
 const bg = chrome.extension.getBackgroundPage();
+const do_filter = document.getElementById("toggle_do_filter");
 const auto_reload = document.getElementById("toggle_auto_reload");
 const send_notification_end_of_battle = document.getElementById("toggle_send_notification_end_of_battle");
+
+do_filter.checked = bg.localStorage.getItem("do_filter") == "true";
+do_filter.addEventListener('change', function () {
+    bg.localStorage.setItem("do_filter", this.checked);
+});
 
 auto_reload.checked = bg.localStorage.getItem("AUTO_RELOAD") == "true";
 auto_reload.addEventListener('change', function () {
