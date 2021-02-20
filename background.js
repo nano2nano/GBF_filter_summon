@@ -1,6 +1,9 @@
 if (!localStorage.hasOwnProperty("SEND_NOTIFICATION_END_OF_BATTLE")) {
     localStorage.setItem("SEND_NOTIFICATION_END_OF_BATTLE", "true");
 }
+if (!localStorage.hasOwnProperty("AUTO_RELOAD")) {
+    localStorage.setItem("AUTO_RELOAD", "true");
+}
 
 let tab_id = null;
 
@@ -14,7 +17,7 @@ chrome.runtime.onMessage.addListener(
                 tab_id = sender.tab.id;
                 break;
             case "game_result":
-                if (tab_id !== null) {
+                if (tab_id !== null && localStorage.getItem("AUTO_RELOAD") == "true") {
                     chrome.tabs.sendMessage(tab_id, request);
                 }
                 if (localStorage.getItem("SEND_NOTIFICATION_END_OF_BATTLE") == "true") {
