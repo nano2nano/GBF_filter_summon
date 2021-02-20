@@ -1,3 +1,25 @@
+chrome.runtime.onMessage.addListener(
+    function (request, sender, sendResponse) {
+        console.log(sender.tab ?
+            "from a content script:" + sender.tab.url :
+            "from the extension");
+        switch (request.tag) {
+            case "quest":
+                if (request.cmd === "start") {
+                    console.log("start trial quest");
+                    console.log("move to quest index page.");
+                    location.href = "http://game.granbluefantasy.jp/#quest/index";
+                }
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
+);
+
+chrome.runtime.sendMessage({ tag: "register_tab_id" });
+
 const TRIAL_HASH = "#quest/supporter/990021/17";
 let SUMMON_PARAM = {
     summon_name: 'カグヤ',

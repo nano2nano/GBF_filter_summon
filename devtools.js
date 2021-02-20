@@ -1,3 +1,5 @@
+const TRIAL_BATTLE_QUEST_ID = "990021";
+
 chrome.devtools.network.onRequestFinished.addListener(
     async function (request) {
         if (request.request.url.match("http://game.granbluefantasy.jp/resultmulti/data")) {
@@ -16,9 +18,22 @@ chrome.devtools.network.onRequestFinished.addListener(
                 } else {
                     // win
                     console.log("win the battle");
-                    chrome.runtime.sendMessage({ tag: "game_result", isWin: true }, function () {
-                        // do nothing
-                    });
+                    chrome.runtime.sendMessage({ tag: "game_result", isWin: true });
+                }
+            } catch (error) {
+                console.error();
+            }
+        } else if (request.request.url.match("start.json")) {
+            console.log("start quest");
+            try {
+                const ctt = await new Promise((rss, rjk) => request.getContent(rss));
+                const start_json = JSON.parse(ctt);
+                if (start_json.quest_id == TRIAL_BATTLE_QUEST_ID) {
+                    // start trial battle.
+                    // send message to background
+                    chrome.runtime.sendMessage({ tag: "quest", cmd: "start" });
+                } else {
+                    // start other quest
                 }
             } catch (error) {
                 console.error();
