@@ -116,16 +116,16 @@ function sendNotification(message, options = {}) {
                 })
         }
     }
-
+    function createNotification(message, options = {}) {
+        var notification = new Notification(message, options);
+        notification.addEventListener('click', function (e) {
+            window.focus();
+            e.target.close();
+        })
+    }
 }
 
-function createNotification(message, options = {}) {
-    var notification = new Notification(message, options);
-    notification.addEventListener('click', function (e) {
-        window.focus();
-        e.target.close();
-    })
-}
+
 
 function existSummon(summons) {
     var summon_array = Array.prototype.slice.call(summons);

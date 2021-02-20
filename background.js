@@ -1,3 +1,7 @@
+// hold tab.id of tab that has gbf open.
+let tab_id = null;
+
+// Set params to localStorage
 if (!localStorage.hasOwnProperty("SEND_NOTIFICATION_END_OF_BATTLE")) {
     localStorage.setItem("SEND_NOTIFICATION_END_OF_BATTLE", "true");
 }
@@ -5,7 +9,6 @@ if (!localStorage.hasOwnProperty("AUTO_RELOAD")) {
     localStorage.setItem("AUTO_RELOAD", "true");
 }
 
-let tab_id = null;
 
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
@@ -56,13 +59,15 @@ function sendNotification(message, options = {}) {
                 })
         }
     }
-
+    function createNotification(message, options = {}) {
+        var notification = new Notification(message, options);
+        notification.addEventListener('click', function (e) {
+            window.focus();
+            e.target.close();
+        })
+    }
 }
 
-function createNotification(message, options = {}) {
-    var notification = new Notification(message, options);
-    notification.addEventListener('click', function (e) {
-        window.focus();
-        e.target.close();
-    })
+function init() {
+
 }
