@@ -1,7 +1,3 @@
-if (!localStorage.hasOwnProperty("DO_FILTER")) {
-    localStorage.setItem("DO_FILTER", "true");
-}
-
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
         console.log(sender.tab ?
@@ -62,22 +58,27 @@ if ("onhashchange" in window) {
             console.log('trial page');
             return;
         }
-        if (localStorage.getItem("DO_FILTER") == "true" && isSummonListPage()) {
-            SUMMON_PARAM = getSummonSearchParam();
-            var id = this.setInterval(waitfun, 250);
-            function waitfun() {
-                var elements = document.getElementsByClassName('btn-supporter lis-supporter');
-                if (elements.length != 0) {
-                    clearInterval(id);
-                    if (existSummon(elements)) {
-                        // nothing to do
-                    } else {
-                        // could not find supporter
-                        sendNotification("Not Fount Summon");
-                        location.href = "http://game.granbluefantasy.jp/" + TRIAL_HASH;
+        if (isSummonListPage()) {
+            chrome.runtime.sendMessage({ tag: "request_local_storage", key: "do_filter" }, function (response) {
+                if (!response.do_filter) {
+                    return;
+                }
+                SUMMON_PARAM = getSummonSearchParam();
+                var id = this.setInterval(waitfun, 250);
+                function waitfun() {
+                    var elements = document.getElementsByClassName('btn-supporter lis-supporter');
+                    if (elements.length != 0) {
+                        clearInterval(id);
+                        if (existSummon(elements)) {
+                            // nothing to do
+                        } else {
+                            // could not find supporter
+                            sendNotification("Not Fount Summon");
+                            location.href = "http://game.granbluefantasy.jp/" + TRIAL_HASH;
+                        }
                     }
                 }
-            }
+            });
         }
     }
 }
