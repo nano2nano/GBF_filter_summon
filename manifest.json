@@ -4,7 +4,7 @@
     "manifest_version": 2,
     "description": "Filter summons list",
     "browser_action": {
-        "default_popup": "popup.html"
+        "default_popup": "./popup/popup.html"
     },
     "content_scripts": [
         {
