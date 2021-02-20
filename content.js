@@ -62,8 +62,8 @@ if ("onhashchange" in window) {
             console.log('trial page');
             return;
         }
-        if (isSummonListPage() && localStorage.getItem("DO_FILTER") == "true") {
-            setSummonParam();
+        if (localStorage.getItem("DO_FILTER") == "true" && isSummonListPage()) {
+            SUMMON_PARAM = getSummonSearchParam();
             var id = this.setInterval(waitfun, 250);
             function waitfun() {
                 var elements = document.getElementsByClassName('btn-supporter lis-supporter');
@@ -91,14 +91,12 @@ function isSummonListPage() {
         || location.hash.match(pattern3) != null;
 }
 
-function setSummonParam() {
-    const index = SUMMON_EXCEPTION_LIST.findIndex(function ({ hash }) {
-        return location.hash === hash;
-    });
+function getSummonSearchParam() {
+    const index = SUMMON_EXCEPTION_LIST.findIndex(({ hash }) => location.hash === hash);
     if (index != -1) {
-        SUMMON_PARAM = SUMMON_EXCEPTION_LIST[index];
-        console.log('set summon param');
-        console.log(SUMMON_PARAM);
+        return SUMMON_EXCEPTION_LIST[index];
+    } else {
+        return SUMMON_PARAM;
     }
 }
 
