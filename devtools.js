@@ -4,7 +4,7 @@ chrome.devtools.network.onRequestFinished.addListener(
     async function (request) {
         if (request.request.url.match("http://game.granbluefantasy.jp/resultmulti/data")) {
             // request data for result page.
-        } else if (request.request.url.match("normal_attack_result.json")) {
+        } else if (request.request.url.match("result.json")) {
             try {
                 const ctt = await new Promise((rss, rjk) => request.getContent(rss));
                 const attack_result = JSON.parse(ctt);
