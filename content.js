@@ -8,7 +8,9 @@ chrome.runtime.onMessage.addListener(
                 if (request.cmd === "start") {
                     console.log("start trial quest");
                     console.log("move to quest index page.");
-                    location.href = "http://game.granbluefantasy.jp/#quest/index";
+                    callAfterRandomTime(function () {
+                        location.href = "http://game.granbluefantasy.jp/#quest/index";
+                    })
                 }
                 break;
             case "game_result":
@@ -80,7 +82,9 @@ function checkSummon() {
             } else {
                 // could not find supporter
                 sendNotification("Not Fount Summon");
-                location.href = "http://game.granbluefantasy.jp/" + TRIAL_HASH;
+                callAfterRandomTime(function () {
+                    location.href = "http://game.granbluefantasy.jp/" + TRIAL_HASH;
+                })
             }
         }
     }
@@ -154,4 +158,9 @@ function getParams(summon) {
         }
     }
     return [summon_name, bless_rank];
+}
+
+function callAfterRandomTime(func) {
+    const time = Math.random(1000);
+    window.setTimeout(func, time);
 }
