@@ -149,7 +149,7 @@ function existSummon(summons) {
 }
 
 function getParams(summon) {
-    var bless_rank_text = ['prt-summon-skill  bless-rank1-style', 'prt-summon-skill  bless-rank2-style'];
+    var bless_rank_text = ['prt-summon-skill  bless-rank1-style', 'prt-summon-skill  bless-rank2-style', 'prt-summon-skill  bless-rank3-style'];
     var summon_name = summon.getElementsByClassName('prt-supporter-summon')[0].textContent.replace(/^\s+|\s+$/g, "").split(" ")[2];
     var bless_rank = 0;
 
