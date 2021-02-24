@@ -13,7 +13,7 @@ chrome.devtools.network.onRequestFinished.addListener(
 
                 if (win_cmd_idx != -1) {
                     console.log("win the battle");
-                    chrome.runtime.sendMessage({ tag: "game_result", isWin: true });
+                    chrome.runtime.sendMessage({ tag: "game_result", isWin: true, isLastRaid: scenario[win_cmd_idx]['is_last_raid'] });
                 }
             } catch (error) {
                 console.error();
