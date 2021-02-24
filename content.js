@@ -14,7 +14,9 @@ chrome.runtime.onMessage.addListener(
                 }
                 break;
             case "game_result":
-                location.reload();
+                if (request.isLastRaid) {
+                    location.reload();
+                }
                 break;
             default:
                 break;
