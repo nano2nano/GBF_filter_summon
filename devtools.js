@@ -40,5 +40,5 @@ chrome.devtools.network.onRequestFinished.addListener(
 );
 
 function getIndexOfWinCommandInScenario(scenario) {
-    return scenario.findIndex(({ cmd }) => cmd === 'win') != -1;
+    return scenario.findIndex(({ cmd }) => cmd === 'win');
 }
