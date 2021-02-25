@@ -29,7 +29,7 @@ chrome.runtime.onMessage.addListener(
                 if (tab_id !== null && localStorage.getItem("AUTO_RELOAD") == "true") {
                     chrome.tabs.sendMessage(tab_id, request);
                 }
-                if (localStorage.getItem("SEND_NOTIFICATION_END_OF_BATTLE") == "true") {
+                if (localStorage.getItem("SEND_NOTIFICATION_END_OF_BATTLE") == "true" && request.isLastRaid) {
                     if (request.isWin) {
                         sendNotification("Win the battle");
                     } else {
