@@ -14,6 +14,9 @@ chrome.devtools.network.onRequestFinished.addListener(
                 if (win_cmd_idx != -1) {
                     console.log("win the battle");
                     chrome.runtime.sendMessage({ tag: "game_result", isWin: true, isLastRaid: scenario[win_cmd_idx]['is_last_raid'] });
+                } else if (getIndexOfLoseCommandInScenario(scenario) != -1) {
+                    console.log("lose the battle");
+                    chrome.runtime.sendMessage({ tag: "game_result", isWin: false });
                 }
             } catch (error) {
                 console.error();
@@ -41,4 +44,8 @@ chrome.devtools.network.onRequestFinished.addListener(
 
 function getIndexOfWinCommandInScenario(scenario) {
     return scenario.findIndex(({ cmd }) => cmd === 'win');
+}
+
+function getIndexOfLoseCommandInScenario(scenario) {
+    return scenario.findIndex(({ cmd }) => cmd === 'lose');
 }
