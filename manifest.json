@@ -26,6 +26,7 @@
         "notifications",
         "background",
         "webRequest",
+        "nativeMessaging",
         "*://*.granbluefantasy.jp/"
     ],
     "devtools_page": "devtools.html"
