@@ -83,7 +83,10 @@ function checkSummon() {
             clearInterval(id);
             const index = findSummonIndex(summons);
             if (index != -1) {
-                // nothing to do
+                // scroll to target
+                setTimeout(function () {
+                    summons[index].scrollIntoView({ behavior: 'smooth' });
+                }, 500);
             } else {
                 // could not find supporter
                 sendNotification("Not Fount Summon");
