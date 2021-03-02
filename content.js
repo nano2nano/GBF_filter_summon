@@ -85,7 +85,7 @@ function checkSummon() {
             if (index != -1) {
                 // scroll to target
                 setTimeout(function () {
-                    summons[index].scrollIntoView({ behavior: 'smooth' });
+                    summons[index].scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }, 500);
             } else {
                 // could not find supporter
