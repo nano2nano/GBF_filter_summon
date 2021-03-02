@@ -31,6 +31,7 @@ const TRIAL_HASH = "#quest/supporter/990021/17";
 let SUMMON_PARAM = {
     summon_name: 'カグヤ',
     bless_rank: 2,
+    attribute: 0,
 };
 const SUMMON_EXCEPTION_LIST = [
     {
@@ -76,10 +77,12 @@ function checkSummon() {
     SUMMON_PARAM = getSummonSearchParam();
     var id = this.setInterval(waitfun, 250);
     function waitfun() {
-        var elements = document.getElementsByClassName('btn-supporter lis-supporter');
-        if (elements.length != 0) {
+        // var elements = document.getElementsByClassName('btn-supporter lis-supporter');
+        const summons = getSummons();
+        if (summons.length != 0) {
             clearInterval(id);
-            if (existSummon(elements)) {
+            const index = findSummonIndex(summons);
+            if (index != -1) {
                 // nothing to do
             } else {
                 // could not find supporter
@@ -135,17 +138,29 @@ function sendNotification(message, options = {}) {
     }
 }
 
-
-
-function existSummon(summons) {
-    var summon_array = Array.prototype.slice.call(summons);
-    for (var i = 0; i < summon_array.length; i++) {
-        var summon_params = getParams(summon_array[i]);
-        if (summon_params[0] === SUMMON_PARAM['summon_name'] && summon_params[1] == SUMMON_PARAM['bless_rank']) {
-            return true;
-        }
+function getSummons() {
+    // 0 = misc., 1=fire, 2=water, 3=earth, 4=wind, 5=light, 6=dark
+    const per_attribute = document.querySelectorAll('.prt-supporter-attribute, .prt-supporter-attribute disableView');
+    let root;
+    if ('attribute' in SUMMON_PARAM) {
+        // if provided attribute key
+        const attribute_id = SUMMON_PARAM['attribute'];
+        root = per_attribute[attribute_id];
+    } else {
+        root = document;
     }
-    return false;
+    return root.getElementsByClassName('btn-supporter lis-supporter');
+}
+
+function findSummonIndex(summons) {
+    const summon_array = Array.prototype.slice.call(summons);
+    const index = summon_array.findIndex(_isTargetSummon);
+    return index;
+}
+
+function _isTargetSummon(summon) {
+    const params = getParams(summon);
+    return params[0] == SUMMON_PARAM['summon_name'] && params[1] == SUMMON_PARAM['bless_rank'];
 }
 
 function getParams(summon) {
