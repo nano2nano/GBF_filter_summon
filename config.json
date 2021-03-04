@@ -1,0 +1,54 @@
+{
+    "filter": [
+        {
+            "hash": "#quest/supporter/300051/1/0/18",
+            "summon_name": "シヴァ",
+            "bless_rank": "1"
+        },
+        {
+            "hash": "#quest/supporter/300101/1/0/19",
+            "summon_name": "エウロペ",
+            "bless_rank": "1"
+        },
+        {
+            "hash": "#quest/supporter/300161/1/0/20",
+            "summon_name": "ゴッドガード・ブローディア",
+            "bless_rank": "1"
+        },
+        {
+            "hash": "#quest/supporter/300261/1/0/21",
+            "summon_name": "グリームニル",
+            "bless_rank": "1"
+        },
+        {
+            "hash": "#quest/supporter/300271/1/0/26",
+            "summon_name": "セレスト・マグナ",
+            "bless_rank": "3"
+        },
+        {
+            "hash": "#quest/supporter/300281/1/0/31",
+            "summon_name": "ルシフェル",
+            "bless_rank": "3"
+        },
+        {
+            "hash": "#quest/supporter_raid/22512625980/772961/1/3",
+            "summon_name": "ルシフェル",
+            "bless_rank": "3"
+        },
+        {
+            "hash": "#quest/supporter/772921/5",
+            "summon_name": "ルシフェル",
+            "bless_rank": "3"
+        },
+        {
+            "hash": "#quest/supporter/773901/1",
+            "summon_name": "ルシフェル",
+            "bless_rank": "3"
+        },
+        {
+            "hash": "#quest/supporter/773911/1/0/10374",
+            "summon_name": "ルシフェル",
+            "bless_rank": "3"
+        }
+    ]
+}

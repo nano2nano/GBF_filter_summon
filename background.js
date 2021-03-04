@@ -12,7 +12,6 @@ if (!localStorage.hasOwnProperty("do_filter")) {
     localStorage.setItem("do_filter", "true");
 }
 
-
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
         console.log(sender.tab ?
@@ -26,7 +25,8 @@ chrome.runtime.onMessage.addListener(
                 tab_id = sender.tab.id;
                 break;
             case "game_result":
-                if (tab_id !== null && localStorage.getItem("AUTO_RELOAD") == "true") {
+                tab_id = sender.tab.id;
+                if (localStorage.getItem("AUTO_RELOAD") == "true") {
                     chrome.tabs.sendMessage(tab_id, request);
                 }
                 if (localStorage.getItem("SEND_NOTIFICATION_END_OF_BATTLE") == "true") {
@@ -38,16 +38,39 @@ chrome.runtime.onMessage.addListener(
                 }
                 break;
             case "quest":
-                if (request.cmd === "start" && tab_id !== null) {
+                tab_id = sender.tab.id;
+                if (request.cmd === "start") {
                     chrome.tabs.sendMessage(tab_id, request);
                 }
                 break;
+            case "load_config":
+                tab_id = sender.tab.id;
+                loadConfig((config) => {
+                    chrome.tabs.sendMessage(tab_id, {
+                        tag: 'config', data: config
+                    });
+                });
+
             default:
                 break;
         }
         return true;
     }
 );
+
+function loadConfig(callback = (config) => { console.log(config) }) {
+    const CONFIG_FILE = 'config.json';
+    let xhr = new XMLHttpRequest();
+    let config;
+    xhr.open('GET', chrome.extension.getURL(CONFIG_FILE), true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+            config = JSON.parse(xhr.responseText);
+            callback(config);
+        }
+    };
+    xhr.send();
+}
 
 function sendNotification(message, options = {}) {
     if (Notification.permission === 'granted') {

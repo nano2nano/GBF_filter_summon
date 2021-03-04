@@ -1,3 +1,4 @@
+let SUMMON_EXCEPTION_LIST = null;
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
         console.log(sender.tab ?
@@ -18,6 +19,12 @@ chrome.runtime.onMessage.addListener(
                     location.reload();
                 }
                 break;
+            case "config":
+                console.log("Load config");
+                console.log(request.data);
+                // Set filter
+                SUMMON_EXCEPTION_LIST = request.data.filter;
+                break;
             default:
                 break;
         }
@@ -26,35 +33,13 @@ chrome.runtime.onMessage.addListener(
 );
 
 chrome.runtime.sendMessage({ tag: "register_tab_id" });
-
+chrome.runtime.sendMessage({ tag: 'load_config' });
 const TRIAL_HASH = "#quest/supporter/990021/17";
 let SUMMON_PARAM = {
     summon_name: 'カグヤ',
     bless_rank: 2,
     attribute: 0,
 };
-const SUMMON_EXCEPTION_LIST = [
-    {
-        hash: '#quest/supporter/300161/1/0/20',
-        summon_name: 'ゴッドガード・ブローディア',
-        bless_rank: 1,
-    },
-    {
-        hash: '#quest/supporter/300261/1/0/21',
-        summon_name: 'グリームニル',
-        bless_rank: 1,
-    },
-    {
-        hash: '#quest/supporter/300271/1/0/26',
-        summon_name: 'セレスト・マグナ',
-        bless_rank: 2,
-    },
-    {
-        hash: '#quest/supporter/300281/1/0/31',
-        summon_name: 'シュヴァリエ・マグナ',
-        bless_rank: 2,
-    }
-];
 
 if ("onhashchange" in window) {
     window.onhashchange = function () {
