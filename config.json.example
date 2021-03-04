@@ -1,0 +1,14 @@
+{
+    "filter": [
+        {
+            "hash": "#quest/supporter/300051/1/0/18",
+            "summon_name": "シヴァ",
+            "bless_rank": "1"
+        },
+        {
+            "hash": "#quest/supporter/300101/1/0/19",
+            "summon_name": "エウロペ",
+            "bless_rank": "1"
+        }
+    ]
+}
