@@ -8,7 +8,8 @@
         {
             "hash": "#quest/supporter/300101/1/0/19",
             "summon_name": "エウロペ",
-            "bless_rank": "1"
+            "bless_rank": "1",
+            "attribute": 0
         }
     ]
 }
