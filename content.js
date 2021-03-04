@@ -65,7 +65,7 @@ if ("onhashchange" in window) {
         }
         if (isSummonListPage()) {
             chrome.runtime.sendMessage({ tag: "request_local_storage", key: "do_filter" }, function (response) {
-                if (response.do_filter) {
+                if (response.value) {
                     checkSummon();
                 }
             });

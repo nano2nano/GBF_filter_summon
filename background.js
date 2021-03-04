@@ -20,7 +20,7 @@ chrome.runtime.onMessage.addListener(
             "from the extension");
         switch (request.tag) {
             case "request_local_storage":
-                sendResponse({ do_filter: localStorage.getItem(request.key) == "true" });
+                sendResponse({ value: localStorage.getItem(request.key) == "true" });
                 break;
             case "register_tab_id":
                 tab_id = sender.tab.id;
