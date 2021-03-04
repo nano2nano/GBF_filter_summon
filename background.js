@@ -25,8 +25,7 @@ chrome.runtime.onMessage.addListener(
                 tab_id = sender.tab.id;
                 break;
             case "game_result":
-                tab_id = sender.tab.id;
-                if (localStorage.getItem("AUTO_RELOAD") == "true") {
+                if (localStorage.getItem("AUTO_RELOAD") == "true" && tab_id !== null) {
                     chrome.tabs.sendMessage(tab_id, request);
                 }
                 if (localStorage.getItem("SEND_NOTIFICATION_END_OF_BATTLE") == "true") {
@@ -38,8 +37,7 @@ chrome.runtime.onMessage.addListener(
                 }
                 break;
             case "quest":
-                tab_id = sender.tab.id;
-                if (request.cmd === "start") {
+                if (request.cmd === "start" && tab_id !== null) {
                     chrome.tabs.sendMessage(tab_id, request);
                 }
                 break;
@@ -50,7 +48,7 @@ chrome.runtime.onMessage.addListener(
                         tag: 'config', data: config
                     });
                 });
-
+                break;
             default:
                 break;
         }
