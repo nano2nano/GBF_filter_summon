@@ -68,8 +68,8 @@ function checkSummon() {
             const index = findSummonIndex(summons);
             if (index != -1) {
                 // scroll to target
-                setTimeout(function () {
-                    summons[index].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                setTimeout(() => {
+                    summons[index].scrollIntoView({ block: 'center' });
                 }, 500);
             } else {
                 // could not find supporter
