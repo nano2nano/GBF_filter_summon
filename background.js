@@ -36,7 +36,7 @@ chrome.runtime.onMessage.addListener(
                     }
                 }
                 break;
-            case "quest":
+            case "trial_battle":
                 if (request.cmd === "start" && tab_id !== null) {
                     chrome.tabs.sendMessage(tab_id, request);
                 }

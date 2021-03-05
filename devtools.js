@@ -29,7 +29,7 @@ chrome.devtools.network.onRequestFinished.addListener(
                 if (start_json.quest_id == TRIAL_BATTLE_QUEST_ID) {
                     // start trial battle.
                     // send message to background
-                    chrome.runtime.sendMessage({ tag: "quest", cmd: "start" });
+                    chrome.runtime.sendMessage({ tag: "trial_battle", cmd: "start" });
                 } else {
                     // start other quest
                 }

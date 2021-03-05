@@ -5,7 +5,7 @@ chrome.runtime.onMessage.addListener(
             "from a content script:" + sender.tab.url :
             "from the extension");
         switch (request.tag) {
-            case "quest":
+            case "trial_battle":
                 if (request.cmd === "start") {
                     console.log("start trial quest");
                     console.log("move to quest index page.");
