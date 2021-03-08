@@ -1,1 +1,4 @@
+.vscode
+*.log
 chrome-extension/config.json
+gbf-bot.bat
