@@ -53,6 +53,15 @@ if ("onhashchange" in window) {
                         key_code: 35
                     }
                 });
+                setTimeout(() => {
+                    const rect = {
+                        x: 61.166,
+                        y: 340.66,
+                        width: 293,
+                        height: 40.66,
+                    };
+                    clickSummon(rect);
+                }, 500);
             }, 500);
         } else if (location.hash.match(/\/supporter\//)) {
             chrome.runtime.sendMessage({ tag: "request_local_storage", key: "do_filter" }, function (response) {
@@ -79,36 +88,7 @@ function checkSummon() {
                     summons[index].scrollIntoView({ block: 'center' });
                     setTimeout(() => {
                         const rect = summons[index].getBoundingClientRect();
-                        chrome.runtime.sendMessage({
-                            tag: "sendToNative", data: {
-                                tag: "click",
-                                innerHeight: window.innerHeight,
-                                innerWidth: window.innerWidth,
-                                x: rect.x * 1.5,
-                                y: rect.y * 1.5,
-                                width: rect.width,
-                                height: rect.height
-                            }
-                        });
-                        const timer = setInterval(() => {
-                            const ok_button = document.getElementsByClassName("btn-usual-ok se-quest-start");
-                            if (ok_button.length != 0) {
-                                clearInterval(timer);
-                                const rect = ok_button[0].getBoundingClientRect();
-                                console.log("click ok_button(summon)");
-                                chrome.runtime.sendMessage({
-                                    tag: "sendToNative", data: {
-                                        tag: "click",
-                                        innerHeight: window.innerHeight,
-                                        innerWidth: window.innerWidth,
-                                        x: rect.x * 1.5,
-                                        y: rect.y * 1.5,
-                                        width: rect.width,
-                                        height: rect.height
-                                    }
-                                });
-                            }
-                        }, 100);
+                        clickSummon(rect);
                     }, 500);
                 }, 500);
             } else {
