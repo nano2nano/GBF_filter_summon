@@ -8,6 +8,7 @@ import winsound
 import nativemessaging
 import win32api
 import win32gui
+import win32con
 
 
 def get_handle():
@@ -51,6 +52,12 @@ def moveAndClick(x, y):
     win32api.mouse_event(4, 0, 0, 0, 0)
 
 
+def press(VK):
+    win32api.keybd_event(VK, 0, 0, 0)
+    time.sleep(.05)
+    win32api.keybd_event(VK, 0, win32con.KEYEVENTF_KEYUP, 0)
+
+
 message = nativemessaging.get_message()
 if message["tag"] == "test":
     # win32api.SetCursorPos((200, 200))
@@ -81,5 +88,8 @@ elif message["tag"] == "click":
     x += random.randint(int(small_x), int(width))
     y += random.randint(int(small_y), int(height))
     moveAndClick(x, y)
+elif message["tag"] == "press_key":
+    key_code = message["key_code"]
+    press(key_code)
 else:
     winsound.Beep(2000, 1000)
