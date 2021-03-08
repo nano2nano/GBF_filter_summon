@@ -1,0 +1,5 @@
+@echo off
+
+SET BAT_LOG=%~dp0gbf-bot.log
+
+python -u "./gbf-bot.py" > %BAT_LOG%
