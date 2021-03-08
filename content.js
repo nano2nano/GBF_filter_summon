@@ -147,20 +147,13 @@ function findSummonIndex(summons) {
 
 function _isTargetSummon(summon) {
     const params = getParams(summon);
-    return params[0] == SUMMON_PARAM['summon_name'] && params[1] == SUMMON_PARAM['bless_rank'];
+    return params[0] + '' == SUMMON_PARAM['summon_name'] + '' && params[1] + '' == SUMMON_PARAM['bless_rank'] + '';
 }
 
 function getParams(summon) {
     var bless_rank_text = ['prt-summon-skill  bless-rank1-style', 'prt-summon-skill  bless-rank2-style', 'prt-summon-skill  bless-rank3-style'];
     var summon_name = summon.getElementsByClassName('prt-supporter-summon')[0].textContent.replace(/^\s+|\s+$/g, "").split(" ")[2];
-    var bless_rank = 0;
-
-    for (var i = 0; i < bless_rank_text.length; i++) {
-        if (summon.getElementsByClassName(bless_rank_text[i]).length != 0) {
-            bless_rank = i + 1;
-            break;
-        }
-    }
+    var bless_rank = summon.getAttribute('data-supporter-evolution');
     return [summon_name, bless_rank];
 }
 
