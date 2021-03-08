@@ -49,6 +49,14 @@ chrome.runtime.onMessage.addListener(
                     });
                 });
                 break;
+            case "sendToNative":
+                const app_name = 'com.nano2nano.gbf_tool';
+                chrome.runtime.sendNativeMessage(
+                    app_name,
+                    request.data
+                );
+                console.log("send to native");
+                console.log(request.data);
             default:
                 break;
         }
