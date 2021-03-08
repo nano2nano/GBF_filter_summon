@@ -37,7 +37,7 @@ chrome.runtime.sendMessage({ tag: 'load_config' });
 const TRIAL_HASH = "#quest/supporter/990021/17";
 let SUMMON_PARAM = {
     summon_name: 'カグヤ',
-    bless_rank: 2,
+    bless_rank: 4,
     attribute: 0,
 };
 
