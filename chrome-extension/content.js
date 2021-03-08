@@ -47,7 +47,7 @@ if ("onhashchange" in window) {
             // except trial page
             console.log('trial page');
             return;
-        } else if (isSummonListPage()) {
+        } else if (location.hash.match(/\/supporter\//)) {
             chrome.runtime.sendMessage({ tag: "request_local_storage", key: "do_filter" }, function (response) {
                 if (response.value) {
                     checkSummon();
@@ -80,15 +80,6 @@ function checkSummon() {
             }
         }
     }
-}
-
-function isSummonListPage() {
-    const pattern = /^#quest\/supporter\//;
-    const pattern2 = /^#quest\/supporter_raid\//;
-    const pattern3 = /^#event\/sequenceraid008\/supporter\//;
-    return location.hash.match(pattern) != null
-        || location.hash.match(pattern2) != null
-        || location.hash.match(pattern3) != null;
 }
 
 function getSummonSearchParam() {
