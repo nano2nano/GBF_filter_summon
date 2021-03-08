@@ -46,7 +46,14 @@ if ("onhashchange" in window) {
         if (location.hash.match(TRIAL_HASH)) {
             // except trial page
             console.log('trial page');
-            return;
+            setTimeout(() => {
+                chrome.runtime.sendMessage({
+                    tag: "sendToNative", data: {
+                        tag: "press_key",
+                        key_code: 35
+                    }
+                });
+            }, 500);
         } else if (location.hash.match(/\/supporter\//)) {
             chrome.runtime.sendMessage({ tag: "request_local_storage", key: "do_filter" }, function (response) {
                 if (response.value) {
