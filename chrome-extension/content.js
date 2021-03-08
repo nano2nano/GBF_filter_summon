@@ -151,7 +151,6 @@ function _isTargetSummon(summon) {
 }
 
 function getParams(summon) {
-    var bless_rank_text = ['prt-summon-skill  bless-rank1-style', 'prt-summon-skill  bless-rank2-style', 'prt-summon-skill  bless-rank3-style'];
     var summon_name = summon.getElementsByClassName('prt-supporter-summon')[0].textContent.replace(/^\s+|\s+$/g, "").split(" ")[2];
     var bless_rank = summon.getAttribute('data-supporter-evolution');
     return [summon_name, bless_rank];
