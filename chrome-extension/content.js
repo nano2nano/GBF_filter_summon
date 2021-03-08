@@ -191,3 +191,43 @@ function callAfterRandomTime(func) {
     const time = Math.random(1000);
     window.setTimeout(func, time);
 }
+
+function clickSummon(rect, callback = () => { }) {
+    chrome.runtime.sendMessage({
+        tag: "sendToNative", data: {
+            tag: "click",
+            innerHeight: window.innerHeight,
+            innerWidth: window.innerWidth,
+            x: rect.x * 1.5,
+            y: rect.y * 1.5,
+            width: rect.width,
+            height: rect.height
+        }
+    });
+    clickClass("btn-usual-ok se-quest-start", callback);
+}
+
+function clickClass(class_name, callback = () => { }) {
+    const timer = setInterval(wait_item, 250);
+    function wait_item() {
+        const item = document.getElementsByClassName(class_name);
+        if (item.length != 0) {
+            clearInterval(timer);
+            const rect = item[0].getBoundingClientRect();
+            console.log("click : " + class_name);
+            chrome.runtime.sendMessage({
+                tag: "sendToNative", data: {
+                    tag: "click",
+                    innerHeight: window.innerHeight,
+                    innerWidth: window.innerWidth,
+                    x: rect.x * 1.5,
+                    y: rect.y * 1.5,
+                    width: rect.width,
+                    height: rect.height
+                }
+            });
+            callback();
+        }
+    }
+
+}
