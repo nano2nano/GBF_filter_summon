@@ -172,6 +172,17 @@ function callAfterRandomTime(func) {
     window.setTimeout(func, time);
 }
 
+function waitClass(class_name, call_back = () => { }, cond_func = () => { return true }) {
+    const timer = setInterval(wait_item, 250);
+    function wait_item() {
+        items = document.getElementsByClassName(class_name);
+        if (items.length != 0 && cond_func(items)) {
+            clearInterval(timer);
+            call_back(items);
+        }
+    }
+}
+
 function clickSummon(rect, callback = () => { }) {
     chrome.runtime.sendMessage({
         tag: "sendToNative", data: {
