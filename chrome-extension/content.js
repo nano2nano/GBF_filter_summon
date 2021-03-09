@@ -69,6 +69,8 @@ if ("onhashchange" in window) {
                     checkSummon();
                 }
             });
+        } else if (location.hash.match(/#quest\/index/)) {
+            clickRetire();
         }
     }
 }
