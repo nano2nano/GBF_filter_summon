@@ -1,5 +1,6 @@
 @echo off
 
-SET BAT_LOG=%~dp0gbf-bot.log
 
-python -u "./gbf-bot.py" > %BAT_LOG%
+call path\activate.bat
+call activate GBFTool
+python -u "./gbf-bot.py"
