@@ -215,3 +215,23 @@ function clickClass(class_name, callback = () => { }) {
         callback();
     });
 }
+
+function clickRetire() {
+    waitClass("prt-popup-header", () => {
+        clickClass("btn-withdraw", () => {
+            waitClass("prt-popup-header", () => {
+                clickClass("btn-usual-ok", () => {
+                    waitClass("prt-popup-header", () => {
+                        clickClass("btn-usual-ok");
+                    }, (items) => {
+                        return items[0].innerText == "クエスト撤退";
+                    });
+                });
+            }, (items) => {
+                return items[0].innerText == "撤退確認";
+            });
+        });
+    }, (items) => {
+        return items[0].innerText == "クエスト再開"
+    });
+}
