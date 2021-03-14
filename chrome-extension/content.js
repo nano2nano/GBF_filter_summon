@@ -179,87 +179,83 @@ function callAfterRandomTime(func) {
     window.setTimeout(func, time);
 }
 
-function waitClass(class_name, call_back = () => { }, cond_func = () => { return true }) {
-    const timer = setInterval(wait_item, 250);
-    function wait_item() {
-        items = document.getElementsByClassName(class_name);
-        if (items.length != 0 && cond_func(items)) {
-            clearInterval(timer);
-            call_back(items);
-        }
-    }
+function sendMessageToNative(json) {
+    chrome.runtime.sendMessage({
+        tag: "sendToNative", data: json
+    });
 }
 
-function clickSummon(rect, callback = () => { }) {
-    chrome.runtime.sendMessage({
-        tag: "sendToNative", data: {
-            tag: "click",
-            innerHeight: window.innerHeight,
-            innerWidth: window.innerWidth,
-            x: rect.x * 1.5,
-            y: rect.y * 1.5,
-            width: rect.width,
-            height: rect.height
+function sendClickMessage(rect) {
+    sendMessageToNative({
+        tag: "click",
+        innerHeight: window.innerHeight,
+        innerWidth: window.innerWidth,
+        x: rect.x * 1.5,
+        y: rect.y * 1.5,
+        width: rect.width,
+        height: rect.height
+    });
+}
+
+function waitClass(class_name, cond_func = () => { return true }) {
+    return new Promise((callback) => {
+        const timer = setInterval(wait_item, 250);
+        function wait_item() {
+            items = document.getElementsByClassName(class_name);
+            if (items.length != 0 && cond_func(items)) {
+                clearInterval(timer);
+                callback(items);
+            }
         }
     });
-    clickClass("btn-usual-ok se-quest-start", callback);
 }
 
-function clickClass(class_name, callback = () => { }) {
-    waitClass(class_name, (items) => {
-        const rect = items[0].getBoundingClientRect();
-        chrome.runtime.sendMessage({
-            tag: "sendToNative", data: {
-                tag: "click",
-                innerHeight: window.innerHeight,
-                innerWidth: window.innerWidth,
-                x: rect.x * 1.5,
-                y: rect.y * 1.5,
-                width: rect.width,
-                height: rect.height
-            }
-        });
-        callback();
+function clickSummon(rect) {
+    return new Promise((callback) => {
+        sendClickMessage(rect);
+        clickClass("btn-usual-ok se-quest-start")
+            .then(callback());
+    });
+}
+
+function clickClass(class_name) {
+    return new Promise((callback) => {
+        waitClass(class_name)
+            .then((items) => {
+                const rect = items[0].getBoundingClientRect();
+                sendClickMessage(rect);
+                callback();
+            });
     });
 }
 
 function clickRetire() {
-    waitClass("prt-popup-header", () => {
-        clickClass("btn-withdraw", () => {
-            waitClass("prt-popup-header", () => {
-                clickClass("btn-usual-ok", () => {
-                    waitClass("prt-popup-header", () => {
-                        clickClass("btn-usual-ok");
-                    }, (items) => {
-                        return items[0].innerText == "クエスト撤退";
-                    });
-                });
-            }, (items) => {
-                return items[0].innerText == "撤退確認";
-            });
-        });
-    }, (items) => {
-        return items[0].innerText == "クエスト再開"
+    return new Promise((callback) => {
+        Promise.resolve()
+            .then(waitClass.bind(this, "prt-popup-header", (items) => {
+                return items[0].innerText == "クエスト再開"
+            }))
+            .then(clickClass.bind(this, "btn-withdraw"))
+            .then(waitClass.bind(this, "prt-popup-header", (items) => {
+                return items[0].innerText == "撤退確認"
+            }))
+            .then(clickClass.bind(this, "btn-usual-ok"))
+            .then(waitClass.bind(this, "prt-popup-header", (items) => {
+                return items[0].innerText == "クエスト撤退"
+            }))
+            .then(clickClass.bind(this, "btn-usual-ok"))
     });
 }
 
 function quest_scenario() {
     console.log("called quest_scenario");
-    waitClass("btn-auto", (items) => {
-        const rect = items[0].getBoundingClientRect();
-        chrome.runtime.sendMessage({
-            tag: "sendToNative", data: {
-                tag: "click",
-                innerHeight: window.innerHeight,
-                innerWidth: window.innerWidth,
-                x: rect.x * 1.5,
-                y: rect.y * 1.5,
-                width: rect.width,
-                height: rect.height
-            }
+    Promise.resolve()
+        .then(waitClass.bind(this, "btn-auto", (items) => {
+            const rect = items[0].getBoundingClientRect();
+            return rect.x != 0 && rect.y != 0;
+        }))
+        .then((items) => {
+            const rect = items[0].getBoundingClientRect();
+            sendClickMessage(rect);
         });
-    }, (items) => {
-        const rect = items[0].getBoundingClientRect();
-        return rect.x != 0 && rect.y != 0;
-    });
 }
