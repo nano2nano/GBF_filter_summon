@@ -41,6 +41,11 @@ chrome.runtime.onMessage.addListener(
                     chrome.tabs.sendMessage(tab_id, request);
                 }
                 break;
+            case "normal_battle":
+                if (request.cmd === "start" && tab_id !== null) {
+                    chrome.tabs.sendMessage(tab_id, request);
+                }
+                break;
             case "load_config":
                 tab_id = sender.tab.id;
                 loadConfig((config) => {
@@ -57,6 +62,7 @@ chrome.runtime.onMessage.addListener(
                 );
                 console.log("send to native");
                 console.log(request.data);
+                break;
             default:
                 break;
         }

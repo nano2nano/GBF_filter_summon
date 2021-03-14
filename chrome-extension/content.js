@@ -19,6 +19,11 @@ chrome.runtime.onMessage.addListener(
                     location.reload();
                 }
                 break;
+            case "normal_battle":
+                if (request.cmd == "start") {
+                    quest_scenario();
+                }
+                break;
             case "config":
                 console.log("Load config");
                 console.log(request.data);
@@ -235,5 +240,26 @@ function clickRetire() {
         });
     }, (items) => {
         return items[0].innerText == "クエスト再開"
+    });
+}
+
+function quest_scenario() {
+    console.log("called quest_scenario");
+    waitClass("btn-auto", (items) => {
+        const rect = items[0].getBoundingClientRect();
+        chrome.runtime.sendMessage({
+            tag: "sendToNative", data: {
+                tag: "click",
+                innerHeight: window.innerHeight,
+                innerWidth: window.innerWidth,
+                x: rect.x * 1.5,
+                y: rect.y * 1.5,
+                width: rect.width,
+                height: rect.height
+            }
+        });
+    }, (items) => {
+        const rect = items[0].getBoundingClientRect();
+        return rect.x != 0 && rect.y != 0;
     });
 }

@@ -32,6 +32,7 @@ chrome.devtools.network.onRequestFinished.addListener(
                     chrome.runtime.sendMessage({ tag: "trial_battle", cmd: "start" });
                 } else {
                     // start other quest
+                    chrome.runtime.sendMessage({ tag: "normal_battle", cmd: "start" });
                 }
             } catch (error) {
                 console.error();
