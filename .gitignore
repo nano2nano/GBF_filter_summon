@@ -2,3 +2,4 @@
 *.log
 chrome-extension/config.json
 gbf-bot.bat
+__pycache__
