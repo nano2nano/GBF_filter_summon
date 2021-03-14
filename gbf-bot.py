@@ -37,6 +37,8 @@ elif message["tag"] == "click":
     y += random.randint(int(small_y), int(height))
     moveAndClick(x, y)
 elif message["tag"] == "press_key":
+    hWnd = get_handle()
+    win32gui.SetForegroundWindow(hWnd)
     key_code = message["key_code"]
     press(key_code)
 else:
