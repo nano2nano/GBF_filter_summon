@@ -33,7 +33,11 @@ chrome.runtime.onMessage.addListener(
 );
 
 chrome.runtime.sendMessage({ tag: "register_tab_id" });
-chrome.runtime.sendMessage({ tag: 'load_config' });
+chrome.runtime.sendMessage({ tag: 'load_config' }, res => {
+    console.log("SET FILTER");
+    console.log(res.data.filter);
+    SUMMON_EXCEPTION_LIST = res.data.filter;
+});
 const TRIAL_HASH = "#quest/supporter/990021/17";
 let SUMMON_PARAM = {
     summon_name: 'カグヤ',

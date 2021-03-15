@@ -45,12 +45,10 @@ chrome.runtime.onMessage.addListener(
                 }
                 break;
             case "load_config":
-                tab_id = sender.tab.id;
-                loadConfig((config) => {
-                    chrome.tabs.sendMessage(tab_id, {
-                        tag: 'config', data: config
+                loadConfig()
+                    .then((config) => {
+                        sendResponse({ tag: 'config', data: config })
                     });
-                });
                 break;
             default:
                 break;
@@ -59,18 +57,20 @@ chrome.runtime.onMessage.addListener(
     }
 );
 
-function loadConfig(callback = (config) => { console.log(config) }) {
-    const CONFIG_FILE = 'config.json';
-    let xhr = new XMLHttpRequest();
-    let config;
-    xhr.open('GET', chrome.extension.getURL(CONFIG_FILE), true);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-            config = JSON.parse(xhr.responseText);
-            callback(config);
-        }
-    };
-    xhr.send();
+function loadConfig() {
+    return new Promise(callback => {
+        const CONFIG_FILE = 'config.json';
+        let xhr = new XMLHttpRequest();
+        let config;
+        xhr.open('GET', chrome.extension.getURL(CONFIG_FILE), true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+                config = JSON.parse(xhr.responseText);
+                callback(config);
+            }
+        };
+        xhr.send();
+    });
 }
 
 function sendNotification(message, options = {}) {
