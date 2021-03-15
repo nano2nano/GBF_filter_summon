@@ -11,6 +11,9 @@ if (!localStorage.hasOwnProperty("AUTO_RELOAD")) {
 if (!localStorage.hasOwnProperty("do_filter")) {
     localStorage.setItem("do_filter", "true");
 }
+if (!localStorage.hasOwnProperty("root_switch")) {
+    localStorage.setItem("root_switch", "true");
+}
 
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
