@@ -46,6 +46,15 @@ if ("onhashchange" in window) {
         if (location.hash.match(TRIAL_HASH)) {
             // except trial page
             console.log('trial page');
+            const timer = setInterval(wait_fun, 250);
+            function wait_fun() {
+                const attributes = document.getElementsByClassName("prt-supporter-attribute");
+                if (attributes.length == 7) {
+                    clearInterval(timer);
+                    const supporter_list = attributes[3].getElementsByClassName("btn-supporter lis-supporter");
+                    supporter_list[supporter_list.length - 1].scrollIntoView({ block: 'center' });
+                }
+            }
             return;
         } else if (location.hash.match(/\/supporter\//)) {
             chrome.runtime.sendMessage({ tag: "request_local_storage", key: "do_filter" }, function (response) {
@@ -62,9 +71,10 @@ function checkSummon() {
     var id = this.setInterval(waitfun, 250);
     function waitfun() {
         // var elements = document.getElementsByClassName('btn-supporter lis-supporter');
-        const summons = getSummons();
-        if (summons.length != 0) {
+        const attributes = document.getElementsByClassName("prt-supporter-attribute");
+        if (attributes.length == 7) {
             clearInterval(id);
+            const summons = getSummons();
             const index = findSummonIndex(summons);
             if (index != -1) {
                 // scroll to target
