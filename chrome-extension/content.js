@@ -48,24 +48,26 @@ let SUMMON_PARAM = {
 if ("onhashchange" in window) {
     window.onhashchange = function () {
         if (location.hash.match(TRIAL_HASH)) {
-            // except trial page
-            console.log('trial page');
-            const timer = setInterval(wait_fun, 250);
-            function wait_fun() {
-                const attributes = document.getElementsByClassName("prt-supporter-attribute");
-                if (attributes.length == 7) {
-                    clearInterval(timer);
-                    const supporter_list = attributes[3].getElementsByClassName("btn-supporter lis-supporter");
-                    supporter_list[supporter_list.length - 1].scrollIntoView({ block: 'center' });
-                }
-            }
-            return;
+            processTrialPage();
         } else if (location.hash.match(/\/supporter\//)) {
             chrome.runtime.sendMessage({ tag: "request_local_storage", key: "do_filter" }, function (response) {
                 if (response.value) {
                     checkSummon();
                 }
             });
+        }
+    }
+}
+
+function processTrialPage() {
+    console.log('trial page');
+    const timer = setInterval(wait_fun, 250);
+    function wait_fun() {
+        const attributes = document.getElementsByClassName("prt-supporter-attribute");
+        if (attributes.length == 7) {
+            clearInterval(timer);
+            const supporter_list = attributes[3].getElementsByClassName("btn-supporter lis-supporter");
+            supporter_list[supporter_list.length - 1].scrollIntoView({ block: 'center' });
         }
     }
 }
