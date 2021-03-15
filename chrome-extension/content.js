@@ -70,6 +70,19 @@ if ("onhashchange" in window) {
     }
 }
 
+function waitClass(class_name, cond_func = () => { return true }) {
+    return new Promise((callback) => {
+        const timer = setInterval(wait_item, 250);
+        function wait_item() {
+            items = document.getElementsByClassName(class_name);
+            if (items.length != 0 && cond_func(items)) {
+                clearInterval(timer);
+                callback(items);
+            }
+        }
+    });
+}
+
 function checkSummon() {
     SUMMON_PARAM = getSummonSearchParam();
     var id = this.setInterval(waitfun, 250);
