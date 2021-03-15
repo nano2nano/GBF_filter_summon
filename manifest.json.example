@@ -1,0 +1,9 @@
+{
+    "name": "com.nano2nano.gbf_tool",
+    "description": "GBF bot",
+    "path": "./gbf-bot.bat",
+    "type": "stdio",
+    "allowed_origins": [
+        "chrome-extension://lbfghkdagmbgpikaihmgahplgkmemaae/"
+    ]
+}
