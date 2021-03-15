@@ -83,6 +83,14 @@ function waitClass(class_name, cond_func = () => { return true }) {
     });
 }
 
+function waitSupporterList() {
+    return new Promise(callback => {
+        waitClass("prt-supporter-attribute", items => {
+            return items.length == 7;
+        }).then(callback);
+    });
+}
+
 function checkSummon() {
     SUMMON_PARAM = getSummonSearchParam();
     var id = this.setInterval(waitfun, 250);
