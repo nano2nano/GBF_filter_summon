@@ -91,6 +91,18 @@ function waitSupporterList() {
     });
 }
 
+function getTargetSupporterElement() {
+    return new Promise(callback => {
+        waitSupporterList()
+            .then(() => {
+                const attribute_id = "attribute" in SUMMON_PARAM ? SUMMON_PARAM['attribute'] : null;
+                const summons = getSummons(attribute_id);
+                const idx = findSummonIndex(summons);
+                callback(idx == -1 ? null : summons[idx]);
+            })
+    })
+}
+
 function checkSummon() {
     SUMMON_PARAM = getSummonSearchParam();
     var id = this.setInterval(waitfun, 250);
