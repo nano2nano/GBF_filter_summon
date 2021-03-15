@@ -45,33 +45,56 @@ let SUMMON_PARAM = {
     attribute: 0,
 };
 
-if ("onhashchange" in window) {
-    window.onhashchange = function () {
-        if (location.hash.match(TRIAL_HASH)) {
-            processTrialPage();
-        } else if (location.hash.match(/\/supporter\//)) {
-            processSupporterPage();
+window.addEventListener('hashchange', main);
+function main() {
+    console.log("called main");
+    chrome.runtime.sendMessage({ tag: "request_local_storage", key: "root_switch" }, function (response) {
+        if (response.value == "true") {
+            _main();
         }
+    });
+}
+
+function _main() {
+    console.log("called _main");
+    if (location.hash.match(TRIAL_HASH)) {
+        processTrialPage();
+    } else if (location.hash.match(/\/supporter\//)) {
+        processSupporterPage();
     }
 }
 
 function processTrialPage() {
+    // except trial page
     console.log('trial page');
-    const timer = setInterval(wait_fun, 250);
-    function wait_fun() {
-        const attributes = document.getElementsByClassName("prt-supporter-attribute");
-        if (attributes.length == 7) {
-            clearInterval(timer);
-            const supporter_list = attributes[3].getElementsByClassName("btn-supporter lis-supporter");
-            supporter_list[supporter_list.length - 1].scrollIntoView({ block: 'center' });
-        }
-    }
+    Promise.resolve()
+        // wait for the supporter list.
+        .then(waitClass.bind(this, "prt-supporter-attribute"), (items) => {
+            return items.length == 7;
+        })
+        .then((items) => {
+            return new Promise(callback => {
+                const supporter_list = items[3].getElementsByClassName("btn-supporter lis-supporter");
+                supporter_list[supporter_list.length - 1].scrollIntoView({ block: 'center' });
+                setTimeout(() => {
+                    const rect = supporter_list[supporter_list.length - 1].getBoundingClientRect();
+                    callback();
+                }, 500);
+            });
+        });
 }
 
 function processSupporterPage() {
-    chrome.runtime.sendMessage({ tag: "request_local_storage", key: "do_filter" }, function (response) {
-        if (response.value) {
-            checkSummon();
+    chrome.runtime.sendMessage({ tag: "request_local_storage", key: "do_filter" }, async res => {
+        if (res.value == "true") {
+            SUMMON_PARAM = getSummonSearchParam();
+            const targetElement = await getTargetSupporterElement();
+            if (targetElement !== null) {
+                targetElement.scrollIntoView({ block: 'center' });
+            } else {
+                sendNotification("Not Fount Summon");
+                location.href = "http://game.granbluefantasy.jp/" + TRIAL_HASH;
+            }
         }
     });
 }
