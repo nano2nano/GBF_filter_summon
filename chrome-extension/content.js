@@ -50,11 +50,7 @@ if ("onhashchange" in window) {
         if (location.hash.match(TRIAL_HASH)) {
             processTrialPage();
         } else if (location.hash.match(/\/supporter\//)) {
-            chrome.runtime.sendMessage({ tag: "request_local_storage", key: "do_filter" }, function (response) {
-                if (response.value) {
-                    checkSummon();
-                }
-            });
+            processSupporterPage();
         }
     }
 }
@@ -70,6 +66,14 @@ function processTrialPage() {
             supporter_list[supporter_list.length - 1].scrollIntoView({ block: 'center' });
         }
     }
+}
+
+function processSupporterPage() {
+    chrome.runtime.sendMessage({ tag: "request_local_storage", key: "do_filter" }, function (response) {
+        if (response.value) {
+            checkSummon();
+        }
+    });
 }
 
 function waitClass(class_name, cond_func = () => { return true }) {
