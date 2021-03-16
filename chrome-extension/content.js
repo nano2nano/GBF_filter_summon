@@ -46,13 +46,12 @@ let SUMMON_PARAM = {
 };
 
 window.addEventListener('hashchange', main);
-function main() {
+async function main() {
     console.log("called main");
-    chrome.runtime.sendMessage({ tag: "request_local_storage", key: "root_switch" }, function (response) {
-        if (response.value == "true") {
-            _main();
-        }
-    });
+    const do_main_process = await getLocalStorage("root_switch") == "true";
+    if (do_main_process) {
+        _main();
+    }
 }
 
 function _main() {
@@ -64,38 +63,48 @@ function _main() {
     }
 }
 
-function processTrialPage() {
+async function processTrialPage() {
     // except trial page
     console.log('trial page');
-    Promise.resolve()
-        // wait for the supporter list.
-        .then(waitClass.bind(this, "prt-supporter-attribute"), (items) => {
-            return items.length == 7;
-        })
-        .then((items) => {
-            return new Promise(callback => {
-                const supporter_list = items[3].getElementsByClassName("btn-supporter lis-supporter");
-                supporter_list[supporter_list.length - 1].scrollIntoView({ block: 'center' });
-                setTimeout(() => {
-                    const rect = supporter_list[supporter_list.length - 1].getBoundingClientRect();
-                    callback();
-                }, 500);
-            });
-        });
+    return new Promise(callback => {
+        Promise.resolve()
+            // wait for the supporter list.
+            .then(waitClass.bind(this, "prt-supporter-attribute"), (items) => {
+                return items.length == 7;
+            })
+            .then((items) => {
+                return new Promise(callback => {
+                    const supporter_list = items[3].getElementsByClassName("btn-supporter lis-supporter");
+                    supporter_list[supporter_list.length - 1].scrollIntoView({ block: 'center' });
+                    setTimeout(() => {
+                        const rect = supporter_list[supporter_list.length - 1].getBoundingClientRect();
+                        callback();
+                    }, 500);
+                });
+            })
+            .then(callback);
+    });
 }
 
-function processSupporterPage() {
-    chrome.runtime.sendMessage({ tag: "request_local_storage", key: "do_filter" }, async res => {
-        if (res.value == "true") {
-            SUMMON_PARAM = getSummonSearchParam();
-            const targetElement = await getTargetSupporterElement();
-            if (targetElement !== null) {
-                targetElement.scrollIntoView({ block: 'center' });
-            } else {
-                sendNotification("Not Fount Summon");
-                location.href = "http://game.granbluefantasy.jp/" + TRIAL_HASH;
-            }
+async function processSupporterPage() {
+    const doFilter = await getLocalStorage("do_filter") == "true";
+    if (doFilter) {
+        SUMMON_PARAM = getSummonSearchParam();
+        const targetElement = await getTargetSupporterElement();
+        if (targetElement !== null) {
+            targetElement.scrollIntoView({ block: 'center' });
+        } else {
+            sendNotification("Not Fount Summon");
+            location.href = "http://game.granbluefantasy.jp/" + TRIAL_HASH;
         }
+    }
+}
+
+async function getLocalStorage(key) {
+    return new Promise(callback => {
+        chrome.runtime.sendMessage({ tag: "request_local_storage", key: key }, res => {
+            callback(res.value);
+        });
     });
 }
 
