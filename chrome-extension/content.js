@@ -21,12 +21,6 @@ chrome.runtime.onMessage.addListener(
                     }
                 }
                 break;
-            case "config":
-                console.log("Load config");
-                console.log(request.data);
-                // Set filter
-                SUMMON_EXCEPTION_LIST = request.data.filter;
-                break;
             default:
                 break;
         }
@@ -57,7 +51,6 @@ async function main() {
 }
 
 function _main() {
-    console.log("called _main");
     if (location.hash.match(TRIAL_HASH)) {
         processTrialPage();
     } else if (location.hash.match(/\/supporter\//)) {
@@ -66,7 +59,6 @@ function _main() {
 }
 
 async function processTrialPage() {
-    // except trial page
     console.log('trial page');
     return new Promise(callback => {
         Promise.resolve()
