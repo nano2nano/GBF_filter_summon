@@ -132,32 +132,6 @@ function getTargetSupporterElement() {
     })
 }
 
-function checkSummon() {
-    SUMMON_PARAM = getSummonSearchParam();
-    var id = this.setInterval(waitfun, 250);
-    function waitfun() {
-        // var elements = document.getElementsByClassName('btn-supporter lis-supporter');
-        const attributes = document.getElementsByClassName("prt-supporter-attribute");
-        if (attributes.length == 7) {
-            clearInterval(id);
-            const summons = getSummons();
-            const index = findSummonIndex(summons);
-            if (index != -1) {
-                // scroll to target
-                setTimeout(() => {
-                    summons[index].scrollIntoView({ block: 'center' });
-                }, 500);
-            } else {
-                // could not find supporter
-                sendNotification("Not Fount Summon");
-                callAfterRandomTime(function () {
-                    location.href = "http://game.granbluefantasy.jp/" + TRIAL_HASH;
-                })
-            }
-        }
-    }
-}
-
 function getSummonSearchParam() {
     const index = SUMMON_EXCEPTION_LIST.findIndex(({ hash }) => location.hash === hash);
     if (index != -1) {
