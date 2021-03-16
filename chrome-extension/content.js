@@ -16,7 +16,9 @@ chrome.runtime.onMessage.addListener(
                 break;
             case "game_result":
                 if (request.isWin && request.isLastRaid) {
-                    location.reload();
+                    if (request.reload) {
+                        location.reload();
+                    }
                 }
                 break;
             case "config":

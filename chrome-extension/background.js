@@ -28,7 +28,8 @@ chrome.runtime.onMessage.addListener(
                 tab_id = sender.tab.id;
                 break;
             case "game_result":
-                if (localStorage.getItem("AUTO_RELOAD") == "true" && tab_id !== null) {
+                request.reload = localStorage.getItem("AUTO_RELOAD") == "true"
+                if (tab_id !== null) {
                     chrome.tabs.sendMessage(tab_id, request);
                 }
                 if (localStorage.getItem("SEND_NOTIFICATION_END_OF_BATTLE") == "true") {
