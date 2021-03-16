@@ -166,13 +166,11 @@ function sendNotification(message, options = {}) {
     }
 }
 
-function getSummons() {
+function getSummons(attribute_id = null) {
     // 0 = misc., 1=fire, 2=water, 3=earth, 4=wind, 5=light, 6=dark
-    const per_attribute = document.querySelectorAll('.prt-supporter-attribute, .prt-supporter-attribute disableView');
+    const per_attribute = document.getElementsByClassName("prt-supporter-attribute");
     let root;
-    if ('attribute' in SUMMON_PARAM) {
-        // if provided attribute key
-        const attribute_id = SUMMON_PARAM['attribute'];
+    if (attribute_id != null) {
         root = per_attribute[attribute_id];
     } else {
         root = document;
