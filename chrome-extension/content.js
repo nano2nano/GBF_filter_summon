@@ -69,11 +69,14 @@ async function processTrialPage() {
             .then((items) => {
                 return new Promise(callback => {
                     const supporter_list = items[3].getElementsByClassName("btn-supporter lis-supporter");
-                    supporter_list[supporter_list.length - 1].scrollIntoView({ block: 'center' });
-                    setTimeout(() => {
+                    waitCond(() => {
                         const rect = supporter_list[supporter_list.length - 1].getBoundingClientRect();
-                        callback();
-                    }, 500);
+                        return !(rect.x == 0 && rect.y == 0);
+                    }, 50)
+                        .then(() => {
+                            supporter_list[supporter_list.length - 1].scrollIntoView({ block: 'center' });
+                            callback();
+                        });
                 });
             })
             .then(callback);
@@ -86,7 +89,13 @@ async function processSupporterPage() {
         SUMMON_PARAM = getSummonSearchParam();
         const targetElement = await getTargetSupporterElement();
         if (targetElement !== null) {
-            targetElement.scrollIntoView({ block: 'center' });
+            waitCond(() => {
+                const rect = targetElement.getBoundingClientRect();
+                return !(rect.x == 0 && rect.y == 0);
+            }, 50)
+                .then(() => {
+                    targetElement.scrollIntoView({ block: 'center' });
+                });
         } else {
             sendNotification("Not Fount Summon");
             location.href = "http://game.granbluefantasy.jp/" + TRIAL_HASH;
@@ -99,6 +108,18 @@ async function getLocalStorage(key) {
         chrome.runtime.sendMessage({ tag: "request_local_storage", key: key }, res => {
             callback(res.value);
         });
+    });
+}
+
+function waitCond(cond, interval_sec = 250) {
+    return new Promise(callback => {
+        const timer = setInterval(waitFunc, interval_sec);
+        function waitFunc() {
+            if (cond) {
+                clearInterval(timer);
+                callback();
+            }
+        }
     });
 }
 
