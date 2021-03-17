@@ -69,10 +69,7 @@ async function processTrialPage() {
             .then((items) => {
                 return new Promise(callback => {
                     const supporter_list = items[3].getElementsByClassName("btn-supporter lis-supporter");
-                    waitCond(() => {
-                        const rect = supporter_list[supporter_list.length - 1].getBoundingClientRect();
-                        return !(rect.x == 0 && rect.y == 0);
-                    }, 50)
+                    waitRender(supporter_list[supporter_list.length - 1], 50)
                         .then(() => {
                             supporter_list[supporter_list.length - 1].scrollIntoView({ block: 'center' });
                             callback();
@@ -89,10 +86,7 @@ async function processSupporterPage() {
         SUMMON_PARAM = getSummonSearchParam();
         const targetElement = await getTargetSupporterElement();
         if (targetElement !== null) {
-            waitCond(() => {
-                const rect = targetElement.getBoundingClientRect();
-                return !(rect.x == 0 && rect.y == 0);
-            }, 50)
+            waitRender(targetElement, 50)
                 .then(() => {
                     targetElement.scrollIntoView({ block: 'center' });
                 });
@@ -133,6 +127,16 @@ function waitClass(class_name, cond_func = () => { return true }) {
                 callback(items);
             }
         }
+    });
+}
+
+function waitRender(element, interval_sec = 250) {
+    return new Promise(callback => {
+        waitCond(() => {
+            const rect = element.getBoundingClientRect();
+            return !(rect.x == 0 && rect.y == 0);
+        }, interval_sec)
+            .then(callback);
     });
 }
 
