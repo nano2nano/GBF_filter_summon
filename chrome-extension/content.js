@@ -60,24 +60,13 @@ function _main() {
 
 async function processTrialPage() {
     console.log('trial page');
-    return new Promise(callback => {
-        Promise.resolve()
-            // wait for the supporter list.
-            .then(waitClass.bind(this, "prt-supporter-attribute"), (items) => {
-                return items.length == 7;
-            })
-            .then((items) => {
-                return new Promise(callback => {
-                    const supporter_list = items[3].getElementsByClassName("btn-supporter lis-supporter");
-                    waitRender(supporter_list[supporter_list.length - 1], 50)
-                        .then(() => {
-                            supporter_list[supporter_list.length - 1].scrollIntoView({ block: 'center' });
-                            callback();
-                        });
-                });
-            })
-            .then(callback);
-    });
+    const items = await waitClass("prt-supporter-attribute", items => {
+        return items.length == 7;
+    })
+    const supporter_list = items[3].getElementsByClassName("btn-supporter lis-supporter");
+    const last_supporter = supporter_list[supporter_list.length - 1];
+    await waitRender(last_supporter, 50);
+    last_supporter.scrollIntoView({ block: 'center' });
 }
 
 async function processSupporterPage() {
@@ -86,10 +75,8 @@ async function processSupporterPage() {
         SUMMON_PARAM = getSummonSearchParam();
         const targetElement = await getTargetSupporterElement();
         if (targetElement !== null) {
-            waitRender(targetElement, 50)
-                .then(() => {
-                    targetElement.scrollIntoView({ block: 'center' });
-                });
+            await waitRender(targetElement, 50);
+            targetElement.scrollIntoView({ block: 'center' });
         } else {
             sendNotification("Not Fount Summon");
             location.href = "http://game.granbluefantasy.jp/" + TRIAL_HASH;
@@ -105,11 +92,11 @@ async function getLocalStorage(key) {
     });
 }
 
-function waitCond(cond, interval_sec = 250) {
+async function waitCond(cond_func, interval_sec = 250) {
     return new Promise(callback => {
         const timer = setInterval(waitFunc, interval_sec);
         function waitFunc() {
-            if (cond) {
+            if (cond_func()) {
                 clearInterval(timer);
                 callback();
             }
@@ -117,11 +104,11 @@ function waitCond(cond, interval_sec = 250) {
     });
 }
 
-function waitClass(class_name, cond_func = () => { return true }) {
+async function waitClass(class_name, cond_func = () => { return true }) {
     return new Promise((callback) => {
         const timer = setInterval(wait_item, 250);
         function wait_item() {
-            items = document.getElementsByClassName(class_name);
+            const items = document.getElementsByClassName(class_name);
             if (items.length != 0 && cond_func(items)) {
                 clearInterval(timer);
                 callback(items);
@@ -131,31 +118,30 @@ function waitClass(class_name, cond_func = () => { return true }) {
 }
 
 async function waitRender(element, interval_sec = 250) {
-    await waitCond(() => {
-        const rect = element.getBoundingClientRect();
-        return !(rect.x == 0 && rect.y == 0);
-    }, interval_sec);
-    return element;
-}
-
-function waitSupporterList() {
     return new Promise(callback => {
-        waitClass("prt-supporter-attribute", items => {
-            return items.length == 7;
-        }).then(callback);
+        const timer = setInterval(waitFunc, interval_sec);
+        function waitFunc() {
+            const rect = element.getBoundingClientRect();
+            if (!(rect.x == 0 && rect.y == 0)) {
+                clearInterval(timer);
+                callback(element);
+            }
+        }
     });
 }
 
-function getTargetSupporterElement() {
-    return new Promise(callback => {
-        waitSupporterList()
-            .then(() => {
-                const attribute_id = "attribute" in SUMMON_PARAM ? SUMMON_PARAM['attribute'] : null;
-                const summons = getSummons(attribute_id);
-                const idx = findSummonIndex(summons);
-                callback(idx == -1 ? null : summons[idx]);
-            })
-    })
+async function waitSupporterList() {
+    await waitClass("prt-supporter-attribute", items => {
+        return items.length == 7;
+    });
+}
+
+async function getTargetSupporterElement() {
+    await waitSupporterList();
+    const attribute_id = "attribute" in SUMMON_PARAM ? SUMMON_PARAM['attribute'] : null;
+    const summons = getSummons(attribute_id);
+    const idx = findSummonIndex(summons);
+    return idx == -1 ? null : summons[idx];
 }
 
 function getSummonSearchParam() {
