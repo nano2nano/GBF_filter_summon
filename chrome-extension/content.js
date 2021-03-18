@@ -130,14 +130,12 @@ function waitClass(class_name, cond_func = () => { return true }) {
     });
 }
 
-function waitRender(element, interval_sec = 250) {
-    return new Promise(callback => {
-        waitCond(() => {
-            const rect = element.getBoundingClientRect();
-            return !(rect.x == 0 && rect.y == 0);
-        }, interval_sec)
-            .then(callback);
-    });
+async function waitRender(element, interval_sec = 250) {
+    await waitCond(() => {
+        const rect = element.getBoundingClientRect();
+        return !(rect.x == 0 && rect.y == 0);
+    }, interval_sec);
+    return element;
 }
 
 function waitSupporterList() {
