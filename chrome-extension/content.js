@@ -53,7 +53,7 @@ async function main() {
 function _main() {
     if (location.hash.match(TRIAL_HASH)) {
         processTrialPage();
-    } else if (location.hash.match(/\/supporter\//)) {
+    } else if (location.hash.match(/\/supporter/)) {
         processSupporterPage();
     }
 }
